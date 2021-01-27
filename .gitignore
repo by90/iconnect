@@ -20,6 +20,33 @@
 # is commented out by default.
 #.vscode/
 
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+# add 1:vscode
+.classpath
+.project
+.settings/
+# remove all files in .vscode
+.vscode/*
+# but we need launch.json
+!/.vscode/launch.json
+
+# add 2: lock file
+# remove pubspec.lock file
+**/pubspec.lock
+
+# add 3: plateform fold
+# remove windows,web,android,ios,macos
+# when we clone it,we should run “flutter create . " to recreate these folds
+/**/android/
+/**/ios/
+/**/windows/
+/**/linux/
+/**/macos
+/**/web/
+
 # Flutter/Dart/Pub related
 **/doc/api/
 .dart_tool/

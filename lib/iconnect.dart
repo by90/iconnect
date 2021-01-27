@@ -1,7 +1,8 @@
-library iconnect;
+import 'src/store.dart';
+export 'src/iconnect.dart'; //only connect function
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+get listen => Store.instance.listen;
+get dispatch => Store.instance.dispatch;
+get register => Store.instance.register;
+get provider => Store.instance.provider;
+get unregister => Store.instance.unRegister;
