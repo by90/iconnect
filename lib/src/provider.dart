@@ -14,7 +14,7 @@ class Provider extends StatefulWidget {
 }
 
 class ProviderState extends State<Provider> {
-  dynamic? aspectId;
+  dynamic aspectId;
   ProviderState({Key? key});
 
   dispatch(dynamic model, [Function? action]) {

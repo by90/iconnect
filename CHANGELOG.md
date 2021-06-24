@@ -1,5 +1,8 @@
+## [0.2.0] - 2021.6.24
+. upgrade flutter
+. change dynamic? to dynamic
 
-* release 0.1.0-dev.1 [2021.1.25]
+## [0.1.0-dev.1] - 2021.1.25
 . register model 
 . unregester model with dispose argument
 . use a model will not rerender widget,only when you listen to is,for example,in counter example,ShowAddButton widget will never rerender,it just use the increment function in Counter model.
