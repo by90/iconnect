@@ -1,4 +1,6 @@
 
+## 0.3.1 -2021.9.7
+1. some changes in readme.md
 ## 0.3.0 -2021.9.7
 . use mixin instead with function,now we only have connect,provider and IConnect mixin
 . now could simple use register in model itself 
