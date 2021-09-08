@@ -26,6 +26,10 @@ class Counter extends StatelessWidget {
             ShowButtonSecond()
           ], mainAxisAlignment: MainAxisAlignment.center),
           showCounterSecond(),
+          Row(
+              children: [ShowTitle(title: 'show twice'), ShowButtonSecond()],
+              mainAxisAlignment: MainAxisAlignment.center),
+          showCounterSecond(),
           Row(children: [
             ShowTitle(title: 'use future with model,and catch errors'),
             ShowButtonAsync()

@@ -15,7 +15,8 @@ class ShowCounterOrigin extends StatelessWidget {
 Widget showCounter() {
   return connect((context) {
     print('ShowCounter build ');
-    listen(context, first);
+    //listen(context, first);
+    first.listen(context);
     return ShowCounterOrigin(value: first.value);
   });
 }
@@ -23,7 +24,7 @@ Widget showCounter() {
 Widget showCounterSecond() {
   return connect((context) {
     print('ShowCounterSecond build ');
-    listen(context, second);
+    second.listen(context);
     return ShowCounterOrigin(value: second.value);
   });
 }
@@ -31,7 +32,7 @@ Widget showCounterSecond() {
 Widget showCounterAsync() {
   return connect((context) {
     print('ShowCounterSecond build ');
-    listen(context, third);
+    third.listen(context);
     switch (third.snapshot.connectionState) {
       case ConnectionState.waiting:
         return CircularProgressIndicator();
@@ -51,7 +52,7 @@ Widget showCounterAsync() {
 
 Widget showCounterStream() {
   return connect((context) {
-    listen(context, fourth);
+    fourth.listen(context);
     return ShowCounterOrigin(value: fourth.value);
   });
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iconnect/iconnect.dart';
 import 'package:example/counter/counter.model.dart';
 
 class ShowButtonOrigin extends StatelessWidget {
@@ -19,7 +18,7 @@ class ShowButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ShowButtonOrigin(
-        increase: () => dispatch(first, () => first.increment(1)));
+        increase: () => first.dispatch(() => first.increment(1)));
   }
 }
 
@@ -28,7 +27,7 @@ class ShowButtonSecond extends StatelessWidget {
   Widget build(BuildContext context) {
     print('ShowButtonSecond build');
     return ShowButtonOrigin(
-        increase: () => dispatch(second, () => second.increment(1)));
+        increase: () => second.dispatch(() => second.increment(1)));
   }
 }
 
@@ -38,15 +37,15 @@ class ShowButtonAsync extends StatelessWidget {
     return ShowButtonOrigin(increase: () async {
       third.snapshot = AsyncSnapshot.waiting();
 
-      dispatch(third);
+      third.dispatch();
       try {
         await third.incrementAsync(1);
 
         third.snapshot = AsyncSnapshot.withData(ConnectionState.done, third);
-        dispatch(third);
+        third.dispatch();
       } catch (e) {
         third.snapshot = AsyncSnapshot.withError(ConnectionState.done, e);
-        dispatch(third);
+        third.dispatch();
       } finally {}
     });
   }
@@ -57,7 +56,7 @@ class ShowButtonStream extends StatelessWidget {
   Widget build(BuildContext context) {
     return ShowButtonOrigin(increase: () {
       fourth.streamIncrease().listen((event) {
-        dispatch(fourth);
+        fourth.dispatch();
       });
     });
   }

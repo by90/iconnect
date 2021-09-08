@@ -12,6 +12,7 @@ class Store {
   get store => _store;
 
   final GlobalKey<ProviderState> _providerStateKey = GlobalKey<ProviderState>();
+
   get dispatch => _providerStateKey.currentState!.dispatch;
 
   listen(context, dynamic model) {

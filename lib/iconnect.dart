@@ -1,8 +1,12 @@
 import 'src/store.dart';
 export 'src/iconnect.dart'; //only connect function
+export 'src/mixin.dart';
 
-get listen => Store.instance.listen;
-get dispatch => Store.instance.dispatch;
-get register => Store.instance.register;
+//two global function:provider and connect
+//one mixin for model:IConnect
 get provider => Store.instance.provider;
-get unregister => Store.instance.unRegister;
+
+// get listen => Store.instance.listen;
+// get dispatch => Store.instance.dispatch;
+// get register => Store.instance.register;
+// get unregister => Store.instance.unRegister;

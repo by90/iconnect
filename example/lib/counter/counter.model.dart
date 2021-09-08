@@ -7,12 +7,13 @@ class CounterError implements Exception {
   final String message = 'counter have some errors';
 }
 
-class CounterModel {
+class CounterModel with IConnect {
   AsyncSnapshot<CounterModel> snapshot = AsyncSnapshot.nothing();
   int value = 0;
 
   CounterModel(value) {
     this.value = value;
+    register();
   }
   increment(int step) {
     value = value + step;
@@ -36,12 +37,7 @@ class CounterModel {
   }
 }
 
-CounterModel _first = new CounterModel(0);
-CounterModel _second = new CounterModel(0);
-CounterModel _third = new CounterModel(0);
-CounterModel _fourth = new CounterModel(0);
-
-CounterModel get first => register(_first) as CounterModel;
-CounterModel get second => register(_second) as CounterModel;
-CounterModel get third => register(_third) as CounterModel;
-CounterModel get fourth => register(_fourth) as CounterModel;
+CounterModel first = new CounterModel(0);
+CounterModel second = new CounterModel(0);
+CounterModel third = new CounterModel(0);
+CounterModel fourth = new CounterModel(0);

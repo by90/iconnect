@@ -1,3 +1,8 @@
+
+## 0.3.0 -2021.9.7
+. use mixin instead with function,now we only have connect,provider and IConnect mixin
+. now could simple use register in model itself 
+
 ## [0.2.0] - 2021.6.24
 . upgrade flutter
 . change dynamic? to dynamic
