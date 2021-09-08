@@ -3,33 +3,39 @@
 
 ## how to use
 1. add package iconnect in pubspec.yaml，then import iconnect in our code files:
-    import 'package:iconnect/iconnect.dart';
-
-1. define a simple class as model
-    class CounterModel {
-      int value = 0;
-      CounterModel(value) {
-        this.value = value;
-      }
-      increment(int step) {
-        value = value + step;
-        return value;
-      }
+`
+import 'package:iconnect/iconnect.dart';
+1. define a simple class as model:
+  
+```
+  class CounterModel {
+    int value = 0;
+    CounterModel(value) {  
+        this.value = value;  
+      }  
+      increment(int step) {  
+        value = value + step;  
+        return value;  
+      }  
     }
+```
 
 1. create one or multi instance
-    CounterModel _first=CounterModel(0);
-    get first=>register(_first);
-    CounterModel _second=CounterModel(0);
-    get second=>register(_second);
-
+ ```
+    CounterModel _first=CounterModel(0);  
+    get first=>register(_first);  
+    CounterModel _second=CounterModel(0);  
+    get second=>register(_second);  
+```
 
 1. provider: use it only one times,all model will saved here
-    void main() {
-      runApp(provider(MyApp()));
-    }
-
+```
+        void main() {
+          runApp(provider(MyApp()));
+        }
+```
 1. connect and listen:if model changed by dispatch,it will rebuild
+ ```
     Widget showCounter() {
       return connect((context) {
         print('ShowCounter build ');
@@ -37,10 +43,11 @@
         return ShowCounterOrigin(value: first.value);
       });
     }
-    
+ ```   
 
 
 1. dispatch：all widget listen to model will rebuild
+```    
     class ShowButtonOrigin extends StatelessWidget {
       ShowButtonOrigin({Key? key, this.increase}) : super(key: key);
       final VoidCallback? increase;
@@ -62,8 +69,9 @@
             increase: () => dispacth(first,() => first.increment(1)));
       }
     }
-
+```
 ## we also could define model with mixin IConnect
+ ```  
     class CounterModel with IConnect {
       int value = 0;
       CounterModel(value) {
@@ -77,13 +85,18 @@
         return value;
       }
     }
+```
 then we could
 1. simply create instance
+```
     CounterModel first = new CounterModel(0);
     CounterModel second = new CounterModel(0);
+```
 1. use listen,dispatch,register,unregister in model
+```
     first.listen()
     first.dispatch()
+ ```   
 1. and we don't need to import iconnect any where
 
 
