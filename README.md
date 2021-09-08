@@ -1,9 +1,105 @@
 # iconnect
 
+
+## how to use
+1. add package iconnect in pubspec.yaml
+iconnect:
+then import iconnect in our code files:
+import 'package:iconnect/iconnect.dart';
+
+1. define a simple class as model
+class CounterModel {
+  int value = 0;
+  CounterModel(value) {
+    this.value = value;
+  }
+  increment(int step) {
+    value = value + step;
+    return value;
+  }
+}
+
+1. create one or multi instance
+CounterModel _first=CounterModel(0);
+get first=>register(_first);
+CounterModel _second=CounterModel(0);
+get second=>register(_second);
+
+
+1. provider: use it only one times,all model will saved here
+void main() {
+  runApp(provider(MyApp()));
+}
+
+1. connect and listen:if model changed by dispatch,it will rebuild
+Widget showCounter() {
+  return connect((context) {
+    print('ShowCounter build ');
+    listen(context, first);
+    return ShowCounterOrigin(value: first.value);
+  });
+}
+    
+
+
+1. dispatch
+class ShowButtonOrigin extends StatelessWidget {
+  ShowButtonOrigin({Key? key, this.increase}) : super(key: key);
+  final VoidCallback? increase;
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: increase,
+      tooltip: 'Increment',
+      child: Icon(Icons.add),
+    );
+  }
+}
+
+//it won't be rebuild when dispatch(first),because we have not listen first here
+class ShowButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ShowButtonOrigin(
+        increase: () => dispacth(first,() => first.increment(1)));
+  }
+}
+
+## we also could define model with mixin IConnect
+class CounterModel with IConnect {
+  int value = 0;
+  CounterModel(value) {
+    this.value = value;
+
+    //we could register here
+    register();
+  }
+  increment(int step) {
+    value = value + step;
+    return value;
+  }
+}
+then we could
+1. simply create instance
+CounterModel first = new CounterModel(0);
+CounterModel second = new CounterModel(0);
+1. use listen,dispatch,register,unregister in model
+first.listen()
+first.dispatch()
+1. and we don't need to import iconnect any where
+
+
 ## what's iconnect?
-The simplest and fast library for state mamagement,it only handle the shared model for widgets,it's null-safe, and support for all the pllatform,so it based on flutter dev channel.
+The simplest and fast library for state mamagement,it only handle the shared model for widgets,it's null-safe, and support for all the pllatform.
 you don't need those huge framework like provider and redux and flutter hook,they think too many things :D
 but they solved the simple thing with many many concept and codes.
+. can create multi instance for a model
+. when model changed,only widget listen to it will rebuild 
+. only provider and connect function for whole 
+. could define model with mixin IConnect
+. could use listen,dispatch,register,unregister function,then model is a simply class
+. if you define a dispose method in model,it will run when unregister.
+ 
 
 
 ## six function and zero concept,that's connect
