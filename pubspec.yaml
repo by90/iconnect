@@ -1,7 +1,6 @@
 name: iconnect
 description: the simplest and fasted state management library.
-version: 0.3.2
-author: byx945@gmail.com
+version: 0.3.3
 homepage: https://github.com/by90/iconnect
 repository: https://github.com/by90/iconnect
 

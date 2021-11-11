@@ -13,7 +13,7 @@ class CounterModel with IConnect {
 
   CounterModel(value) {
     this.value = value;
-    register();
+    register(this);
   }
   increment(int step) {
     value = value + step;

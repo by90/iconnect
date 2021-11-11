@@ -17,7 +17,7 @@ class ProviderState extends State<Provider> {
   dynamic aspectId;
   ProviderState({Key? key});
 
-  dispatch(dynamic model, [Function? action]) {
+  void dispatch(dynamic model, [Function? action]) {
     aspectId = model;
     if (action != null) {
       var _result = action();

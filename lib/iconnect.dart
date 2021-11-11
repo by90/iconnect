@@ -1,5 +1,4 @@
 import 'src/store.dart';
-export 'src/iconnect.dart'; //only connect function
 export 'src/mixin.dart';
 
 //two global function:provider and connect

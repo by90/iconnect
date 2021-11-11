@@ -1,4 +1,6 @@
-
+## 0.3.3 - 2021.11.10
+1. remove iconnect,use Builder widget instead
+1. fix bug in example,register should have an argument
 ## 0.3.2 -2021.9.7
 1. some changes in readme.md
 ## 0.3.0 -2021.9.7
