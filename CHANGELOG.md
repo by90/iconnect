@@ -1,3 +1,7 @@
+## 0.3.4 _2022.10.3
+1. dispatch work with async action
+1. use _rebuild instead of setState
+
 ## 0.3.3 - 2021.11.10
 1. remove iconnect,use Builder widget instead
 1. fix bug in example,register should have an argument

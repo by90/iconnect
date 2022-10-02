@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart'; //需要加入
 
 typedef Action<T> = T Function();
 
@@ -17,15 +18,51 @@ class ProviderState extends State<Provider> {
   dynamic aspectId;
   ProviderState({Key? key});
 
+  Future<void> _rebuild() async {
+    if (!mounted) return; //如果组件没有mount，此次rebuild将被忽略
+
+    // if there's a current frame,
+    if (SchedulerBinding.instance.schedulerPhase != SchedulerPhase.idle) {
+      // wait for the end of that frame.
+      await SchedulerBinding.instance.endOfFrame;
+      if (!mounted) return;
+    }
+
+    setState(() {});
+  }
+
+  //  R? ret = fn?.call();
+
+  //   if (ret is Future) {
+  //     ret.then((_) {
+  //       _update();
+  //     });
+  //   } else {
+  //     _update();
+  //   }
+
+  //   return ret;
+  // }
+
+  //action最终返回同类型的值，用来更改map中的值？然而map中明显的是使用实例做指针？？
+  //这里我们假设action不返回新的model，涉及到返回的情况我们之后再处理
   void dispatch(dynamic model, [Function? action]) {
     aspectId = model;
     if (action != null) {
       var _result = action();
-      setState(() => false);
-      return _result;
+      if (_result is Future) {
+        _result.then((_) {
+          _rebuild();
+        });
+      } else {
+        _rebuild();
+      }
+      //return _result;
+      return;
     }
-    setState(() => false);
-    return null;
+
+    _rebuild(); //注意这里是异步函数
+    return;
   }
 
   @override
