@@ -3,19 +3,28 @@ import 'package:flutter/scheduler.dart'; //需要加入
 
 typedef Action<T> = T Function();
 
+class AspectType {
+  Type t;
+  String? key;
+  AspectType(this.t, this.key);
+}
+
 class Provider extends StatefulWidget {
   final Widget child;
   final Key? stateKey;
   Provider(this.child, {Key? key, this.stateKey}) : super(key: key);
   @override
   ProviderState createState() => new ProviderState(key: stateKey);
-  static of(BuildContext context, dynamic model) {
-    return InheritedModel.inheritFrom<_InheritedStore>(context, aspect: model);
+
+  static of<T>(BuildContext context, String? key) {
+    return InheritedModel.inheritFrom<_InheritedStore>(context,
+        aspect: AspectType(T, key));
   }
 }
 
 class ProviderState extends State<Provider> {
-  dynamic aspectId;
+  Type? aspectId; //这是类型
+
   ProviderState({Key? key});
 
   Future<void> _rebuild() async {
@@ -31,23 +40,10 @@ class ProviderState extends State<Provider> {
     setState(() {});
   }
 
-  //  R? ret = fn?.call();
-
-  //   if (ret is Future) {
-  //     ret.then((_) {
-  //       _update();
-  //     });
-  //   } else {
-  //     _update();
-  //   }
-
-  //   return ret;
-  // }
-
   //action最终返回同类型的值，用来更改map中的值？然而map中明显的是使用实例做指针？？
   //这里我们假设action不返回新的model，涉及到返回的情况我们之后再处理
-  void dispatch(dynamic model, [Function? action]) {
-    aspectId = model;
+  void dispatch<T>(String? key, [Function? action]) {
+    aspectId = T;
     if (action != null) {
       var _result = action();
       if (_result is Future) {
@@ -67,15 +63,14 @@ class ProviderState extends State<Provider> {
 
   @override
   Widget build(BuildContext context) {
-    return new _InheritedStore(
-        child: widget.child, aspectId: aspectId as dynamic);
+    return new _InheritedStore(child: widget.child, aspectId: aspectId);
   }
 }
 
 class _InheritedStore extends InheritedModel<Object> {
   _InheritedStore({Key? key, required Widget child, required this.aspectId})
       : super(key: key, child: child);
-  final dynamic aspectId;
+  final Type? aspectId;
 
   @override
   bool updateShouldNotify(_InheritedStore oldWidget) {
@@ -85,7 +80,7 @@ class _InheritedStore extends InheritedModel<Object> {
   @override
   bool updateShouldNotifyDependent(
       InheritedModel<dynamic> oldWidget, Set<dynamic> dependencies) {
-    bool result = dependencies.contains(aspectId);
+    bool result = dependencies.contains(aspectId); //注意这个覆盖的函数是两个动态的参数
     return result;
   }
 }
