@@ -18,6 +18,7 @@ class ShowButtonOrigin extends StatelessWidget {
 class ShowButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print('press button');
     return ShowButtonOrigin(
         increase: () =>
             dispatch<CounterModel>(action: () => first.increment(1)));
