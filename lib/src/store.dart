@@ -31,9 +31,10 @@ class Store {
 
   final GlobalKey<ProviderState> _providerStateKey = GlobalKey<ProviderState>();
 
-  get dispatch => _providerStateKey.currentState!.dispatch;
+  void Function<T>(String?, [Function?]) get dispatch =>
+      _providerStateKey.currentState!.dispatch;
 
-  listen<T>(context, String? key) {
+  listen<T>(context, [String? key]) {
     return Provider.of<T>(context, key);
   }
   //aspec应该是类型加键
@@ -81,7 +82,7 @@ class Store {
       }
 
       if (_store.containsKey(key)) {
-        throw ('类型${T.toString()},键值${key!}已经注册');
+        throw ('类型${T.toString()},键值$key已经注册');
       }
       _store[T]!.others![key] = instance;
     }

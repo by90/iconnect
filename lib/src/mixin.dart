@@ -1,22 +1,22 @@
-import 'package:flutter/material.dart';
 import 'store.dart';
 import 'provider.dart';
 
-// mixin IConnect {
-//   dynamic model;
-//   dynamic register([VoidCallback? dispose]) {
-//     return Store().register(this, dispose);
-//   }
+mixin IConnect<T> {
+  dynamic model;
 
-//   dynamic unRegister([VoidCallback? dispose]) {
-//     return Store().unRegister(this, dispose);
-//   }
+  T register<T>(T instance, {String? key, Dispose? dispose}) {
+    return Store().register<T>(instance, key: key, dispose: dispose);
+  }
 
-//   listen(context) {
-//     return Provider.of(context, this);
-//   }
+  void unRegister<T>([String? key]) {
+    return Store().unRegister<T>(key);
+  }
 
-//   dispatch([Function? action]) {
-//     return Store.instance.dispatch(this, action);
-//   }
-// }
+  listen<T>(context, [String? key]) {
+    return Provider.of<T>(context, key);
+  }
+
+  dispatch<T>({Function? action, String? key}) {
+    return Store.instance.dispatch<T>(key, action);
+  }
+}

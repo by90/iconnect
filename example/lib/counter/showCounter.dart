@@ -15,7 +15,7 @@ Widget showCounter() {
   return Builder(builder: (context) {
     print('ShowCounter build ');
     //listen(context, first);
-    first.listen(context);
+    first.listen<CounterModel>(context);
     return ShowCounterOrigin(value: first.value);
   });
 }

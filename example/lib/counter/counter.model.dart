@@ -10,10 +10,11 @@ class CounterError implements Exception {
 class CounterModel with IConnect {
   AsyncSnapshot<CounterModel> snapshot = AsyncSnapshot.nothing();
   int value = 0;
+  String? key;
 
-  CounterModel(value) {
+  CounterModel(value, [String? key]) {
     this.value = value;
-    register(this);
+    register<CounterModel>(this, key: key);
   }
   increment(int step) {
     value = value + step;
@@ -38,6 +39,6 @@ class CounterModel with IConnect {
 }
 
 CounterModel first = new CounterModel(0);
-CounterModel second = new CounterModel(0);
-CounterModel third = new CounterModel(0);
-CounterModel fourth = new CounterModel(0);
+CounterModel second = new CounterModel(0, 'second;');
+CounterModel third = new CounterModel(0, 'third');
+CounterModel fourth = new CounterModel(0, 'fourth');
