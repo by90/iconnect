@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:example/counter/counter.model.dart';
+import 'package:iconnect/iconnect.dart';
 
 class ShowCounterOrigin extends StatelessWidget {
   ShowCounterOrigin({Key? key, this.value = 0}) : super(key: key);
@@ -15,7 +16,7 @@ Widget showCounter() {
   return Builder(builder: (context) {
     print('ShowCounter build ');
     //listen(context, first);
-    first.listen<CounterModel>(context);
+    listen<CounterModel>(context);
     return ShowCounterOrigin(value: first.value);
   });
 }
@@ -23,7 +24,7 @@ Widget showCounter() {
 Widget showCounterSecond() {
   return Builder(builder: (context) {
     print('ShowCounterSecond build ');
-    second.listen(context);
+    listen<CounterModel>(context, 'second');
     return ShowCounterOrigin(value: second.value);
   });
 }
@@ -31,7 +32,7 @@ Widget showCounterSecond() {
 Widget showCounterAsync() {
   return Builder(builder: (context) {
     print('ShowCounterSecond build ');
-    third.listen(context);
+    listen(context, 'third');
     switch (third.snapshot.connectionState) {
       case ConnectionState.waiting:
         return CircularProgressIndicator();
@@ -51,7 +52,7 @@ Widget showCounterAsync() {
 
 Widget showCounterStream() {
   return Builder(builder: (context) {
-    fourth.listen(context);
+    listen(context, 'fourth');
     return ShowCounterOrigin(value: fourth.value);
   });
 }

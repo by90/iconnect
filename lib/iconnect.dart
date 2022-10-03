@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'src/store.dart';
 export 'src/mixin.dart';
 
@@ -6,8 +8,9 @@ export 'src/mixin.dart';
 get provider => Store.instance.provider;
 
 //if don't define model with mixin IConnect,could use these four function,for register,listen,dispatch
-dynamic Function<T>(dynamic, String?) get listen => Store.instance.listen;
-void Function<T>(String?, [Function?]) get dispatch => Store.instance.dispatch;
+Function<T>(BuildContext, [String?]) get listen => Store.instance.listen;
+void Function<T>({String? key, Function? action}) get dispatch =>
+    Store.instance.dispatch;
 T Function<T>(T, {void Function<T>(T)? dispose, String? key}) get register =>
     Store.instance.register;
 void Function<T>(String?) get unregister => Store.instance.unRegister;

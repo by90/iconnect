@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'store.dart';
 import 'provider.dart';
 
@@ -12,11 +14,11 @@ mixin IConnect<T> {
     return Store().unRegister<T>(key);
   }
 
-  listen<T>(context, [String? key]) {
+  listen<T>(BuildContext context, [String? key]) {
     return Provider.of<T>(context, key);
   }
 
   dispatch<T>({Function? action, String? key}) {
-    return Store.instance.dispatch<T>(key, action);
+    return Store.instance.dispatch<T>(key: key, action: action);
   }
 }

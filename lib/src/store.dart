@@ -31,10 +31,10 @@ class Store {
 
   final GlobalKey<ProviderState> _providerStateKey = GlobalKey<ProviderState>();
 
-  void Function<T>(String?, [Function?]) get dispatch =>
+  void Function<T>({String? key, Function? action}) get dispatch =>
       _providerStateKey.currentState!.dispatch;
 
-  listen<T>(context, [String? key]) {
+  listen<T>(BuildContext context, [String? key]) {
     return Provider.of<T>(context, key);
   }
   //aspec应该是类型加键

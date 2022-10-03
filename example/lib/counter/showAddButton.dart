@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:example/counter/counter.model.dart';
+import 'package:iconnect/iconnect.dart';
 
 class ShowButtonOrigin extends StatelessWidget {
   ShowButtonOrigin({Key? key, this.increase}) : super(key: key);
@@ -19,7 +20,7 @@ class ShowButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ShowButtonOrigin(
         increase: () =>
-            first.dispatch<CounterModel>(action: () => first.increment(1)));
+            dispatch<CounterModel>(action: () => first.increment(1)));
   }
 }
 
@@ -28,7 +29,7 @@ class ShowButtonSecond extends StatelessWidget {
   Widget build(BuildContext context) {
     print('ShowButtonSecond build');
     return ShowButtonOrigin(
-        increase: () => second.dispatch<CounterModel>(
+        increase: () => dispatch<CounterModel>(
             key: 'second', action: () => second.increment(1)));
   }
 }
@@ -39,15 +40,15 @@ class ShowButtonAsync extends StatelessWidget {
     return ShowButtonOrigin(increase: () async {
       third.snapshot = AsyncSnapshot.waiting();
 
-      third.dispatch<CounterModel>(key: 'third');
+      dispatch<CounterModel>(key: 'third');
       try {
         await third.incrementAsync(1);
 
         third.snapshot = AsyncSnapshot.withData(ConnectionState.done, third);
-        third.dispatch<CounterModel>(key: 'third');
+        dispatch<CounterModel>(key: 'third');
       } catch (e) {
         third.snapshot = AsyncSnapshot.withError(ConnectionState.done, e);
-        third.dispatch<CounterModel>(key: 'third');
+        dispatch<CounterModel>(key: 'third');
       } finally {}
     });
   }
@@ -58,7 +59,7 @@ class ShowButtonStream extends StatelessWidget {
   Widget build(BuildContext context) {
     return ShowButtonOrigin(increase: () {
       fourth.streamIncrease().listen((event) {
-        fourth.dispatch<CounterModel>(key: 'fourth');
+        dispatch<CounterModel>(key: 'fourth');
       });
     });
   }

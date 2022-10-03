@@ -7,7 +7,7 @@ class CounterError implements Exception {
   final String message = 'counter have some errors';
 }
 
-class CounterModel with IConnect {
+class CounterModel {
   AsyncSnapshot<CounterModel> snapshot = AsyncSnapshot.nothing();
   int value = 0;
   String? key;
