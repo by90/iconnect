@@ -23,7 +23,7 @@ class Provider extends StatefulWidget {
 }
 
 class ProviderState extends State<Provider> {
-  Type? aspectId; //这是类型
+  AspectType? aspectId; //这是类型
 
   ProviderState({Key? key});
 
@@ -43,7 +43,7 @@ class ProviderState extends State<Provider> {
   //action最终返回同类型的值，用来更改map中的值？然而map中明显的是使用实例做指针？？
   //这里我们假设action不返回新的model，涉及到返回的情况我们之后再处理
   void dispatch<T>(String? key, [Function? action]) {
-    aspectId = T;
+    aspectId = AspectType(T, key);
     if (action != null) {
       var _result = action();
       if (_result is Future) {
@@ -63,14 +63,14 @@ class ProviderState extends State<Provider> {
 
   @override
   Widget build(BuildContext context) {
-    return new _InheritedStore(child: widget.child, aspectId: aspectId);
+    return new _InheritedStore(child: widget.child, aspectId: aspectId!);
   }
 }
 
-class _InheritedStore extends InheritedModel<Object> {
+class _InheritedStore extends InheritedModel<AspectType> {
   _InheritedStore({Key? key, required Widget child, required this.aspectId})
       : super(key: key, child: child);
-  final Type? aspectId;
+  final AspectType aspectId;
 
   @override
   bool updateShouldNotify(_InheritedStore oldWidget) {
