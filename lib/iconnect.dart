@@ -9,8 +9,7 @@ get provider => Store.instance.provider;
 
 //if don't define model with mixin IConnect,could use these four function,for register,listen,dispatch
 Function<T>(BuildContext, [String?]) get listen => Store.instance.listen;
-void Function<T>({String? key, Function? action}) get dispatch =>
-    Store.instance.dispatch;
+void Function<T>([String? key]) get dispatch => Store.instance.dispatch;
 T Function<T>(T, {void Function<T>(T)? dispose, String? key}) get register =>
     Store.instance.register;
 void Function<T>(String?) get unregister => Store.instance.unRegister;

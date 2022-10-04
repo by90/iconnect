@@ -19,9 +19,10 @@ class ShowButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('press button');
-    return ShowButtonOrigin(
-        increase: () =>
-            dispatch<CounterModel>(action: () => first.increment(1)));
+    return ShowButtonOrigin(increase: () {
+      first.increment(1);
+      dispatch<CounterModel>();
+    });
   }
 }
 
@@ -29,9 +30,10 @@ class ShowButtonSecond extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('ShowButtonSecond build');
-    return ShowButtonOrigin(
-        increase: () => dispatch<CounterModel>(
-            key: 'second', action: () => second.increment(1)));
+    return ShowButtonOrigin(increase: () {
+      second.increment(1);
+      dispatch<CounterModel>('second');
+    });
   }
 }
 
@@ -40,16 +42,15 @@ class ShowButtonAsync extends StatelessWidget {
   Widget build(BuildContext context) {
     return ShowButtonOrigin(increase: () async {
       third.snapshot = AsyncSnapshot.waiting();
-
-      dispatch<CounterModel>(key: 'third');
+      dispatch<CounterModel>('third');
       try {
         await third.incrementAsync(1);
 
         third.snapshot = AsyncSnapshot.withData(ConnectionState.done, third);
-        dispatch<CounterModel>(key: 'third');
+        dispatch<CounterModel>('third');
       } catch (e) {
         third.snapshot = AsyncSnapshot.withError(ConnectionState.done, e);
-        dispatch<CounterModel>(key: 'third');
+        dispatch<CounterModel>('third');
       } finally {}
     });
   }
@@ -60,7 +61,7 @@ class ShowButtonStream extends StatelessWidget {
   Widget build(BuildContext context) {
     return ShowButtonOrigin(increase: () {
       fourth.streamIncrease().listen((event) {
-        dispatch<CounterModel>(key: 'fourth');
+        dispatch<CounterModel>('fourth');
       });
     });
   }

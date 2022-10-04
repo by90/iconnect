@@ -21,7 +21,10 @@ class ProviderState extends State<Provider> {
   ProviderState({Key? key});
 
   Future<void> _rebuild() async {
-    if (!mounted) return; //如果组件没有mount，此次rebuild将被忽略
+    if (!mounted) {
+      print('not mounted,ignore rebuild');
+      return; //如果组件没有mount，此次rebuild将被忽略
+    }
 
     // if there's a current frame,
     if (SchedulerBinding.instance.schedulerPhase != SchedulerPhase.idle) {
@@ -33,24 +36,31 @@ class ProviderState extends State<Provider> {
     setState(() {});
   }
 
+  // 这里可以执行action，考虑到尽量的不要有多种选择，这是精简设计的要务之一
+  //  因此去掉action的概念，model变化后直接dispatch
+  //  void dispatch<T>({String? key, Function? action}) {
+  //   aspectId = key;
+  //   //print('dispatch,${T.toString()}   $key');
+  //   if (action != null) {
+  //     var _result = action();
+  //     if (_result is Future) {
+  //       _result.then((_) {
+  //         _rebuild();
+  //       });
+  //     } else {
+  //       _rebuild();
+  //     }
+  //     return;
+  //   }
+
+  //   _rebuild(); //注意这里是异步函数
+  //   return;
+  // }
   //action最终返回同类型的值，用来更改map中的值？然而map中明显的是使用实例做指针？？
   //这里我们假设action不返回新的model，涉及到返回的情况我们之后再处理
-  void dispatch<T>({String? key, Function? action}) {
-    aspectId = key;
-    print('dispatch,${T.toString()}   $key');
-    if (action != null) {
-      var _result = action();
-      if (_result is Future) {
-        _result.then((_) {
-          _rebuild();
-        });
-      } else {
-        _rebuild();
-      }
-      //return _result;
-      return;
-    }
 
+  void dispatch<T>([String? key]) {
+    aspectId = key;
     _rebuild(); //注意这里是异步函数
     return;
   }

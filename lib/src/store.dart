@@ -31,7 +31,7 @@ class Store {
 
   final GlobalKey<ProviderState> _providerStateKey = GlobalKey<ProviderState>();
 
-  void Function<T>({String? key, Function? action}) get dispatch =>
+  void Function<T>([String? key]) get dispatch =>
       _providerStateKey.currentState!.dispatch;
 
   listen<T>(BuildContext context, [String? key]) {

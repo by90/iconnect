@@ -18,7 +18,7 @@ mixin IConnect<T> {
     return Provider.of<T>(context, key);
   }
 
-  dispatch<T>({Function? action, String? key}) {
-    return Store.instance.dispatch<T>(key: key, action: action);
+  dispatch<T>([String? key]) {
+    return Store.instance.dispatch<T>(key);
   }
 }
