@@ -8,12 +8,8 @@ typedef Dispose<T> = void Function<T>(T);
 class StoreItem<T> {
   String? key; //默认的键，暂时使用toString构建
   T? model; //实例
-  Dispose<T>? dispose; //可以不要  //应该有个实例参数
   Map<String, T>? others; // 存放同类型的其它实例
 }
-
-void dispose<T>(T obj) {}
-var i = dispose;
 
 class Store {
   factory Store() => _instance;
@@ -45,11 +41,10 @@ class Store {
 
   //register，每个只注册一次，重复了则抛出异常
   //应定义一个异常在这里，提供类型、key、出错情况
-  T register<T>(T instance, {String? key, Dispose? dispose}) {
+  T register<T>(T instance, [String? key]) {
     StoreItem item = StoreItem();
     if (!_store.containsKey(instance.runtimeType)) {
       if (key != null) item.key = key;
-      if (dispose != null) item.dispose = dispose;
 
       if (key == null || key == T.toString()) {
         item.model = instance;
@@ -74,7 +69,6 @@ class Store {
       //对于默认的情况
 
       if (key == null) _store[T]!.key = T.toString();
-      if (dispose != null) _store[T]!.dispose = dispose;
       _store[T]!.model = instance;
     } else {
       if (_store[T]!.others == null) {
@@ -95,8 +89,12 @@ class Store {
 
     //删除默认实例
     if (key == null || key == T.toString()) {
-      if (_store[T]!.dispose != null)
-        _store[T]!.dispose!.call(_store[T]!.model);
+      //if (_store[T]!.dispose != null)
+
+      //_store[T]!.dispose!.call(_store[T]!.model);
+
+      _dispose(_store[T]!.model);
+
       if (_store[T]!.others!.isEmpty)
         _store.remove(T);
       else {
@@ -110,11 +108,48 @@ class Store {
         throw '您企图删除类型${T.toString()},键值$key,但它不存在';
       }
       //这里需确保dispose不删除
-      if (_store[T]!.dispose != null)
-        _store[T]!.dispose!.call(_store[T]!.others![key]);
+      // if (_store[T]!.dispose != null)
+      //   _store[T]!.dispose!.call(_store[T]!.others![key]);
+      _dispose(_store[T]!.others![key]);
       _store[T]!.others!.remove(key);
       //这里dipose怎么弄？
 
     }
   }
+
+  bool _dispose(dynamic obj) {
+    try {
+      obj.dispose();
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
 }
+
+
+//remove mixin.dart
+// import 'package:flutter/material.dart';
+
+// import 'store.dart';
+// import 'provider.dart';
+
+// mixin IConnect<T> {
+//   dynamic model;
+
+//   T register<T>(T instance, [String? key]) {
+//     return Store().register<T>(instance, key);
+//   }
+
+//   void unRegister<T>([String? key]) {
+//     return Store().unRegister<T>(key);
+//   }
+
+//   listen<T>(BuildContext context, [String? key]) {
+//     return Provider.of<T>(context, key);
+//   }
+
+//   dispatch<T>([String? key]) {
+//     return Store.instance.dispatch<T>(key);
+//   }
+// }

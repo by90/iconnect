@@ -3,5 +3,5 @@ import 'package:iconnect/iconnect.dart';
 import 'package:example/app/app.dart';
 
 void main() {
-  runApp(provider(MyApp()));
+  runApp(provider(const MyApp()));
 }

@@ -3,6 +3,8 @@ import 'package:example/home/home.dart';
 import 'package:example/counter/counter.dart';
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page', child: Counter()),
+      home: const MyHomePage(title: 'Flutter Demo Home Page', child: Counter()),
     );
   }
 }

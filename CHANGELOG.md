@@ -1,6 +1,8 @@
 ## 0.3.4 _2022.10.3
-1. dispatch work with async action
+1. dispatch now used without action
+1. remove dipose function,try dipose if exist in model
 1. use _rebuild instead of setState
+1. remove mixin 
 
 ## 0.3.3 - 2021.11.10
 1. remove iconnect,use Builder widget instead

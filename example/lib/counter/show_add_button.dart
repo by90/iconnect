@@ -1,24 +1,27 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:example/counter/counter.model.dart';
 import 'package:iconnect/iconnect.dart';
 
 class ShowButtonOrigin extends StatelessWidget {
-  ShowButtonOrigin({Key? key, this.increase}) : super(key: key);
+  const ShowButtonOrigin({Key? key, this.increase}) : super(key: key);
   final VoidCallback? increase;
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: increase,
       tooltip: 'Increment',
-      child: Icon(Icons.add),
+      child: const Icon(Icons.add),
     );
   }
 }
 
 class ShowButton extends StatelessWidget {
+  const ShowButton({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    print('press button');
+    //print('press button');
     return ShowButtonOrigin(increase: () {
       first.increment(1);
       dispatch<CounterModel>();
@@ -27,9 +30,13 @@ class ShowButton extends StatelessWidget {
 }
 
 class ShowButtonSecond extends StatelessWidget {
+  const ShowButtonSecond({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    print('ShowButtonSecond build');
+    if (kDebugMode) {
+      print('ShowButtonSecond build');
+    }
     return ShowButtonOrigin(increase: () {
       second.increment(1);
       dispatch<CounterModel>('second');
@@ -38,10 +45,12 @@ class ShowButtonSecond extends StatelessWidget {
 }
 
 class ShowButtonAsync extends StatelessWidget {
+  const ShowButtonAsync({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ShowButtonOrigin(increase: () async {
-      third.snapshot = AsyncSnapshot.waiting();
+      third.snapshot = const AsyncSnapshot.waiting();
       dispatch<CounterModel>('third');
       try {
         await third.incrementAsync(1);
@@ -57,6 +66,8 @@ class ShowButtonAsync extends StatelessWidget {
 }
 
 class ShowButtonStream extends StatelessWidget {
+  const ShowButtonStream({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ShowButtonOrigin(increase: () {

@@ -8,13 +8,12 @@ class CounterError implements Exception {
 }
 
 class CounterModel {
-  AsyncSnapshot<CounterModel> snapshot = AsyncSnapshot.nothing();
+  AsyncSnapshot<CounterModel> snapshot = const AsyncSnapshot.nothing();
   int value = 0;
   String? key;
 
-  CounterModel(value, [String? key]) {
-    this.value = value;
-    register<CounterModel>(this, key: key);
+  CounterModel(this.value, [String? key]) {
+    register<CounterModel>(this, key);
   }
   increment(int step) {
     value = value + step;
@@ -22,7 +21,7 @@ class CounterModel {
   }
 
   Future<void> incrementAsync(int step) async {
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     if (Random().nextBool()) {
       throw CounterError();
     } else {
@@ -31,14 +30,14 @@ class CounterModel {
   }
 
   Stream<int> streamIncrease() {
-    return Stream.periodic(Duration(seconds: 1), (i) {
-      this.value = i;
-      return this.value;
+    return Stream.periodic(const Duration(seconds: 1), (i) {
+      value = i;
+      return value;
     }).take(10);
   }
 }
 
-CounterModel first = new CounterModel(0);
-CounterModel second = new CounterModel(0, 'second;');
-CounterModel third = new CounterModel(0, 'third');
-CounterModel fourth = new CounterModel(0, 'fourth');
+CounterModel first = CounterModel(0);
+CounterModel second = CounterModel(0, 'second;');
+CounterModel third = CounterModel(0, 'third');
+CounterModel fourth = CounterModel(0, 'fourth');
