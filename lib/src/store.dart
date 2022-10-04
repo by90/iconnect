@@ -30,8 +30,27 @@ class Store {
   void Function<T>([String? key]) get dispatch =>
       _providerStateKey.currentState!.dispatch;
 
-  listen<T>(BuildContext context, [String? key]) {
-    return Provider.of<T>(context, key);
+  //这样，Store<T>(key) 就可以得到key为key，类型为T的实例。
+  T? call<T>([String? key]) {
+    return get<T>(key);
+  }
+
+  //使用类型和键值获取model，此时没有监听该model，dispatch时不会响应
+  T? get<T>([String? key]) {
+    if (!Store.instance._store.containsKey(T)) return null;
+    if (key == null || key == T.toString()) {
+      return Store.instance._store[T]!.model;
+    }
+    if (Store.instance._store[T]!.others == null) return null;
+    if (Store.instance._store[T]!.others!.containsKey(key))
+      return Store.instance._store[T]!.others![key];
+    return null;
+  }
+
+  //监听，并返回监听的实例
+  T? listen<T>(BuildContext context, [String? key]) {
+    Provider.of<T>(context, key);
+    return get<T>(key);
   }
   //aspec应该是类型加键
 
@@ -84,7 +103,7 @@ class Store {
     return instance;
   }
 
-  void unRegister<T>(String? key) {
+  void unRegister<T>([String? key]) {
     if (!_store.containsKey(T)) throw '您企图删除类型${T.toString()},键值${key!},但它不存在';
 
     //删除默认实例

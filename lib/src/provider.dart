@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart'; //需要加入
 
-typedef Action<T> = T Function();
-
 class Provider extends StatefulWidget {
   final Widget child;
   final Key? stateKey;
