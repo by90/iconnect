@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' show AsyncSnapshot;
 import 'package:iconnect/iconnect.dart';
 
@@ -7,13 +8,13 @@ class CounterError implements Exception {
   final String message = 'counter have some errors';
 }
 
-class CounterModel with IConnect {
-  AsyncSnapshot<CounterModel> snapshot = AsyncSnapshot.nothing();
+class CounterModel {
+  AsyncSnapshot<CounterModel> snapshot = const AsyncSnapshot.nothing();
   int value = 0;
+  String? key;
 
-  CounterModel(value) {
-    this.value = value;
-    register(this);
+  CounterModel(this.value, [String? key]) {
+    register<CounterModel>(this, key);
   }
   increment(int step) {
     value = value + step;
@@ -21,23 +22,30 @@ class CounterModel with IConnect {
   }
 
   Future<void> incrementAsync(int step) async {
-    await Future.delayed(Duration(seconds: 1));
-    if (Random().nextBool()) {
-      throw CounterError();
-    } else {
-      increment(step);
+    if (kDebugMode) {
+      // print('enter future');
+    }
+    await Future.delayed(const Duration(milliseconds: 300));
+    try {
+      if (Random().nextBool()) {
+        throw CounterError(); //这里注意处理异常
+      } else {
+        increment(step);
+      }
+    } catch (e) {
+      return Future.error(e);
     }
   }
 
   Stream<int> streamIncrease() {
-    return Stream.periodic(Duration(seconds: 1), (i) {
-      this.value = i;
-      return this.value;
+    return Stream.periodic(const Duration(seconds: 1), (i) {
+      value = i;
+      return value;
     }).take(10);
   }
 }
 
-CounterModel first = new CounterModel(0);
-CounterModel second = new CounterModel(0);
-CounterModel third = new CounterModel(0);
-CounterModel fourth = new CounterModel(0);
+CounterModel first = CounterModel(0);
+CounterModel second = CounterModel(0, 'second;');
+CounterModel third = CounterModel(0, 'third');
+CounterModel fourth = CounterModel(0, 'fourth');

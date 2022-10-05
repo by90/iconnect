@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'showTitle.dart';
-import 'showCounter.dart';
-import 'showAddButton.dart';
+import 'show_title.dart';
+import 'show_counter.dart';
+import 'show_add_button.dart';
 
 class Counter extends StatelessWidget {
-  Counter({Key? key, this.title}) : super(key: key);
+  const Counter({Key? key, this.title}) : super(key: key);
   final String? title;
 
   @override
@@ -16,29 +16,30 @@ class Counter extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Row(children: [
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
             ShowTitle(title: 'use model with single counter'),
             ShowButton()
-          ], mainAxisAlignment: MainAxisAlignment.center),
+          ]),
           showCounter(),
-          Row(children: [
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
             ShowTitle(title: 'share model with two counter'),
             ShowButtonSecond()
-          ], mainAxisAlignment: MainAxisAlignment.center),
+          ]),
           showCounterSecond(),
-          Row(
-              children: [ShowTitle(title: 'show twice'), ShowButtonSecond()],
-              mainAxisAlignment: MainAxisAlignment.center),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
+            ShowTitle(title: 'show twice'),
+            ShowButtonSecond()
+          ]),
           showCounterSecond(),
-          Row(children: [
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
             ShowTitle(title: 'use future with model,and catch errors'),
             ShowButtonAsync()
-          ], mainAxisAlignment: MainAxisAlignment.center),
+          ]),
           showCounterAsync(),
-          Row(children: [
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
             ShowTitle(title: 'use stream with model'),
             ShowButtonStream()
-          ], mainAxisAlignment: MainAxisAlignment.center),
+          ]),
           showCounterStream(),
         ],
       ),
