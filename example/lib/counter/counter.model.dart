@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' show AsyncSnapshot;
 import 'package:iconnect/iconnect.dart';
 
@@ -21,11 +22,18 @@ class CounterModel {
   }
 
   Future<void> incrementAsync(int step) async {
-    await Future.delayed(const Duration(seconds: 1));
-    if (Random().nextBool()) {
-      throw CounterError();
-    } else {
-      increment(step);
+    if (kDebugMode) {
+      // print('enter future');
+    }
+    await Future.delayed(const Duration(milliseconds: 300));
+    try {
+      if (Random().nextBool()) {
+        throw CounterError(); //这里注意处理异常
+      } else {
+        increment(step);
+      }
+    } catch (e) {
+      return Future.error(e);
     }
   }
 

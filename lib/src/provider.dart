@@ -58,13 +58,15 @@ class ProviderState extends State<Provider> {
   //这里我们假设action不返回新的model，涉及到返回的情况我们之后再处理
 
   void dispatch<T>([String? key]) {
-    aspectId = key;
+    //注意，这里aspectId不能为空
+    aspectId = key == null ? T.toString() : key;
     _rebuild(); //注意这里是异步函数
     return;
   }
 
   @override
   Widget build(BuildContext context) {
+    //注意aspectId首次构建时可能为null，只有dispatch后才会有值，这里是否会触发异常？
     return new _InheritedStore(child: widget.child, aspectId: aspectId);
   }
 }
@@ -82,8 +84,9 @@ class _InheritedStore extends InheritedModel<Object> {
   @override
   bool updateShouldNotifyDependent(
       InheritedModel<dynamic> oldWidget, Set<dynamic> dependencies) {
-    print('dependencies=${dependencies.first.toString()}');
+    //print('dependencies=${dependencies.first.toString()}');
     if (aspectId == null) {
+      //首次构建时会是null，今后任何时候都由dispatch赋予
       print('aspectid=null');
       return false;
     }
