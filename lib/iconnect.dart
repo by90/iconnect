@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'src/store.dart';
+export 'src/store.dart';
 //export 'src/mixin.dart';
 
 //two global function:provider and connect

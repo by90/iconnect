@@ -1,3 +1,5 @@
+## 0.4.1 _2022.10.7
+1. export Store
 ## 0.4.0 _2022.10.3
 1. dispatch now used without action
 1. remove dipose function,try dipose if exist in model
