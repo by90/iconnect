@@ -1,6 +1,7 @@
 
-
-## 0.5.0 _ 2022.10.7
+## 0.5.1 _2022.10.8
+1. add builder argument for WithAsync
+## 0.5.0 _2022.10.7
 1. fix bug: check _store[T]!.others![key] in register,should throw when key is registed
 1. add a get store
 1. remove export Store
