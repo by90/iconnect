@@ -30,7 +30,7 @@ Widget showCounterSecond() {
       print('ShowCounterSecond build ');
     }
     listen<CounterModel>(context, 'second');
-    return ShowCounterOrigin(value: second.value);
+    return ShowCounterOrigin(value: store<CounterModel>('second')!.value);
   });
 }
 

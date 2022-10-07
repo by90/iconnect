@@ -16,6 +16,8 @@ class CounterModel {
   CounterModel(this.value, [String? key]) {
     register<CounterModel>(this, key);
   }
+
+  onRegister() {}
   increment(int step) {
     value = value + step;
     return value;
@@ -46,6 +48,6 @@ class CounterModel {
 }
 
 CounterModel first = CounterModel(0);
-CounterModel second = CounterModel(0, 'second;');
+//CounterModel second = CounterModel(0, 'second;');
 CounterModel third = CounterModel(0, 'third');
 CounterModel fourth = CounterModel(0, 'fourth');

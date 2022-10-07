@@ -38,7 +38,7 @@ class ShowButtonSecond extends StatelessWidget {
       print('ShowButtonSecond build');
     }
     return ShowButtonOrigin(increase: () {
-      second.increment(1);
+      store<CounterModel>('second')!.increment(1); //没有!则提示错误，说动态。因为可能是null
       dispatch<CounterModel>('second');
     });
   }

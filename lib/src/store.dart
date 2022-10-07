@@ -54,54 +54,82 @@ class Store {
   }
   //aspec应该是类型加键
 
-  Widget provider(Widget app) {
-    return Provider(app, key: _providerStateKey);
+  Widget provider(Widget app, Future<void> Function()? initState) {
+    return Provider(
+      app,
+      key: _providerStateKey,
+      initState: initState,
+    );
   }
 
   //register，每个只注册一次，重复了则抛出异常
   //应定义一个异常在这里，提供类型、key、出错情况
-  T register<T>(T instance, [String? key]) {
+  T register<T>(T model, [String? key]) {
     StoreItem item = StoreItem();
-    if (!_store.containsKey(instance.runtimeType)) {
+
+    //不包括此类型，说明既没有注册默认实例，也没有注册二级同类型实例
+    if (!_store.containsKey(model.runtimeType)) {
       if (key != null) item.key = key;
 
       if (key == null || key == T.toString()) {
-        item.model = instance;
+        item.model = model;
       } else {
         //没有默认实例，放置到others里面
         if (item.others == null) item.others = Map<String, dynamic>();
         //这里不用判断是否存在同样的键，因为之前不存在
-        item.others![key] = instance;
+        item.others![key] = model;
       }
       _store[T] = item; //加入，如果已经存在就不用加入
-      return instance; //这里只返回instance
 
+      //return instance; //这里只返回instance
     }
-    //此时无需if了，因为已经排除了包含T的情况
-    //if (store.containsKey(T)) { //说明已经存在，有可能是默认的，也有可能默认的没定义
+    //说明注册了一个同类型实例，可能是默认的，也可能是二级同类实例
+    else {
+      //此时已_store经包含T
+      //此时无需if了，因为已经排除了包含T的情况
+      //if (_store.containsKey(T)) { //说明已经存在，有可能是默认的，也有可能默认的没定义
 
-    if (key == null || key == T.toString()) {
-      if (_store[T]!.key == T.toString()) {
-        throw ('类型${T.toString()}已经注册');
-      }
-      //如果已经包含了该类型，则应该抛出异常
-      //对于默认的情况
+      //试图注册默认实例
+      if (key == null || key == T.toString()) {
+        //当默认实例已经注册时抛出异常，开发阶段需要处理
+        if (_store[T]!.key == T.toString()) {
+          throw ('类型${T.toString()}已经注册');
+        }
+        //如果已经包含了该类型，则应该抛出异常
+        //对于默认的情况
 
-      if (key == null) _store[T]!.key = T.toString();
-      _store[T]!.model = instance;
-    } else {
-      if (_store[T]!.others == null) {
-        _store[T]!.others = Map<String, dynamic>();
+        //上面处理key已经赋值的情况，这里处理key为null的情况
+        //很明显，此时是注册了有key的实例，在others，但并未注册默认实例
+        //以下两步注册
+        //这里没必要判断是否key为null，因为肯定为null，上面key不为null的情形已经排除
+        //if (key == null)
+        _store[T]!.key = T.toString();
+        _store[T]!.model = model;
+      }
+      //试图注册二级同名实例
+      else {
+        if (_store[T]!.others == null) {
+          _store[T]!.others = Map<String, dynamic>();
+        }
+
+        //bug:需要检查_store[T]!.others![key]是否等于提供的key
+        if (_store[T]!.others!.containsKey(key))
+        //&& _store[T]!.others![key] == key)  //bug:这里很明显，左边是model右边是key
+
+        {
+          throw ('类型${T.toString()},键值$key已经注册');
+        }
+        _store[T]!.others![key] = model;
       }
 
-      if (_store.containsKey(key)) {
-        throw ('类型${T.toString()},键值$key已经注册');
-      }
-      _store[T]!.others![key] = instance;
+      //return instance;
     }
 
-    return instance;
+    //统一return
+    return model;
   }
+
+  Future<void> Function()? initState; //默认为null
 
   void unRegister<T>([String? key]) {
     if (!_store.containsKey(T)) throw '您企图删除类型${T.toString()},键值${key!},但它不存在';
@@ -144,7 +172,12 @@ class Store {
     }
     return true;
   }
+
+  //注意model提供的onRegister可能是future
+  //它可以抛出开发异常
+  //register后并不能立刻得到它的结果
 }
+
 
 
 //remove mixin.dart

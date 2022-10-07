@@ -1,5 +1,21 @@
+
+
+## 0.5.0 _ 2022.10.7
+1. fix bug: check _store[T]!.others![key] in register,should throw when key is registed
+1. add a get store
+1. remove export Store
+1. if there is a initState function in model,it will be worked in register,this usually used for auto load,so it could be a future
+1. add WithFuture widget
+1. add async initState for Provider
+1. add retry_async for timeout,wait and retry
+1. add for async initState, and use futureBuilder for it
+1. add example for initState,seconds now register here
+1. futureBuilder run only once so we can run initState only once 
+
+
 ## 0.4.1 _2022.10.7
 1. export Store
+
 ## 0.4.0 _2022.10.3
 1. dispatch now used without action
 1. remove dipose function,try dipose if exist in model

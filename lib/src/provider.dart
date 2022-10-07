@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart'; //需要加入
+import 'with_async.dart';
 
 class Provider extends StatefulWidget {
   final Widget child;
   final Key? stateKey;
-  Provider(this.child, {Key? key, this.stateKey}) : super(key: key);
+
+  final Future<void> Function()? initState;
+
+  Provider(this.child, {Key? key, this.stateKey, this.initState})
+      : super(key: key);
   @override
-  ProviderState createState() => new ProviderState(key: stateKey);
+  ProviderState createState() =>
+      new ProviderState(key: stateKey, future: initState);
 
   static of<T>(BuildContext context, [String? key]) {
     return InheritedModel.inheritFrom<_InheritedStore>(context, aspect: key);
@@ -14,9 +20,10 @@ class Provider extends StatefulWidget {
 }
 
 class ProviderState extends State<Provider> {
+  final Future<void> Function()? future;
   String? aspectId; //这是类型
 
-  ProviderState({Key? key});
+  ProviderState({Key? key, this.future});
 
   Future<void> _rebuild() async {
     if (!mounted) {
@@ -67,7 +74,12 @@ class ProviderState extends State<Provider> {
   @override
   Widget build(BuildContext context) {
     //注意aspectId首次构建时可能为null，只有dispatch后才会有值，这里是否会触发异常？
-    return new _InheritedStore(child: widget.child, aspectId: aspectId);
+    if (future != null) {
+      return _InheritedStore(
+          aspectId: aspectId, child: WithAsync(widget.child, future: future!));
+    } else {
+      return _InheritedStore(aspectId: aspectId, child: widget.child);
+    }
   }
 }
 
