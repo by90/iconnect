@@ -22,7 +22,10 @@ class _WithAsyncState<T> extends State<WithAsync> {
   void initState() {
     if (widget.builder != null) {
       _builder = widget.builder!;
+    } else {
+      _builder = null;
     }
+    //bug:Field '_builder@45045263' has not been initialized.
     future = widget.future(); //在这里运行函数，就不会每次都刷新了，如果需要重试，则再次运行即可。
     super.initState();
   }

@@ -1,4 +1,5 @@
-
+## 0.5.2 _2022.10.9
+1. fix bug: late error in withAsync,_build should be inited
 ## 0.5.1 _2022.10.8
 1. add builder argument for WithAsync
 ## 0.5.0 _2022.10.7
