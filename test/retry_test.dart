@@ -29,16 +29,22 @@ void main() {
 
     test('retry (unhandled exception)', () async {
       var count = 0;
-      // final r = RetryOptions(
-      //   maxAttempts: 5,
-      // );
-      final f = retry(() {
-        count++;
-        throw Exception('Retry will fail');
-      }, retries: 5, retryIf: (e) => Future.value(false));
+      var f;
+      try {
+        f = retry(() {
+          count++;
+          throw Exception('Retry will fail');
+        }, retries: 5, retryIf: (e) => Future.value(false));
+      } catch (e) {
+        print('throw ${e.toString()}');
+      }
 
-      //当出现未处理的异常时，这里可以不再断出？
-      await expectLater(f, throwsA(isException));
+      //异常用future.error返回，而非rethrow，然后下一句就相当于捕获了，debug不会断掉。
+      //这可能导致futureBuilder同样捕获错误。
+      await expectLater(
+          f,
+          throwsA(
+              isException)); //如果注释掉，debug会断掉。即使不注释这句，若前面是throw而非future.error，也会断掉。
       expect(count, equals(1));
     });
 

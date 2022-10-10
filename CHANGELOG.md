@@ -1,3 +1,7 @@
+
+## 0.5.4_2002.10.10
+1. fix bug: retry return future.error,not rethrow,so it will be caughted by future builder
+
 ## 0.5.3 _2022.10.10
 1. fix bug:runAsync worked with null checked error
 1. rename runAsync to retry

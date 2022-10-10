@@ -65,7 +65,8 @@ Future<T> retry<T>(
       }
     } on Exception catch (e) {
       if (attempt == retries - 1 || (retryIf != null && !(await retryIf(e)))) {
-        rethrow; //这就该断出future了
+        return Future.error(e);
+        //rethrow; //这就该断出future了
       }
 
       //如果上面rethrow，则这里很明显不该执行
