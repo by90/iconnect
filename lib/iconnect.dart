@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'src/store.dart';
 
-export 'src/retry_async.dart';
+export 'src/retry.dart';
 export 'src/with_async.dart';
 
 //export 'src/store.dart';

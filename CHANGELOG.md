@@ -1,3 +1,8 @@
+## 0.5.3 _2022.10.10
+1. fix bug:runAsync worked with null checked error
+1. rename runAsync to retry
+1. add test for retry
+
 ## 0.5.2 _2022.10.9
 1. fix bug: late error in withAsync,_build should be inited
 ## 0.5.1 _2022.10.8
