@@ -1,4 +1,7 @@
 
+## 0.5.5——2022.10.10
+1. change back to rethrow,not return future.error,futurebuilder can't work for it
+
 ## 0.5.4_2002.10.10
 1. fix bug: retry return future.error,not rethrow,so it will be caughted by future builder
 

@@ -65,8 +65,8 @@ Future<T> retry<T>(
       }
     } on Exception catch (e) {
       if (attempt == retries - 1 || (retryIf != null && !(await retryIf(e)))) {
-        return Future.error(e);
-        //rethrow; //这就该断出future了
+        //return Future.error(e); //！！！这里简单抛出，单元测试完全正常，但futurebuilder无法正常工作
+        rethrow; //这就该断出future了
       }
 
       //如果上面rethrow，则这里很明显不该执行
